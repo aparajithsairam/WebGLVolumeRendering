@@ -12,6 +12,9 @@ line in Fragment Shader.
 If slicer is needed, then uncomment
 #define SLICER
 line in Fragment Shader.
+To move the slice plane position along z axis, press 'w' to move towards positive z, and 's' to move towards negative z
+You can also use 'a' and 'd' for the same functionality. But it will appear as if 2 images belonging to different 
+depth planes are visible simultaneously. It looks aesthetic.
 
 If you want to generate densities procedurally in renderer, then uncomment the line
 den += (getSphereDensity(l, vec3(SPHERE_CENTER), SPHERE_RADIUS) / (delt / STEP));
