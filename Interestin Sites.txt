@@ -1,0 +1,6 @@
+Shows restriction in WebGL which does not allow while and do-while loops:
+http://www.khronos.org/webgl/public-mailing-list/archives/1012/msg00063.html
+Original google search:
+https://bugzilla.mozilla.org/show_bug.cgi/attachment.cgi?id=616978
+
+Cannot access uniform arrays via index!!
