@@ -746,15 +746,12 @@ vec2 cellular(vec2 P)
 		float distanceFromCenter = (resolution.y / 2.0) / tan(fovy);
 		vec3 c = distanceFromCenter * viewDir;
 		vec3 m =  eye + c;
-		vec3 rotatedViewDir = vec3(rotation * vec4(viewDir, 0.0));
-		vec3 centerOfRotation = gridOrigin + gridSize / 2.0;
-		vec3 rotatedEyePos = m - distanceFromCenter * rotatedViewDir;
-		vec3 a = cross(rotatedViewDir, up);
-		vec3 b = cross(a, rotatedViewDir);
+		vec3 a = cross(viewDir, up);
+		vec3 b = cross(a, viewDir);
 		vec3 h = (resolution.x / 2.0) * normalize(a);
 		vec3 v = (distanceFromCenter * tan(fovy)) * normalize(b);
 		vec3 p = m + (2.0 * (pixel.x / (resolution.x - 1.0)) - 1.0) * h + (2.0 * (pixel.y / (resolution.y - 1.0)) - 1.0) * v;
-		vec3 dir = p - rotatedEyePos;
+		vec3 dir = p - eye;
 		dir = normalize(dir);
 		return clamp(rayCast(dir), vec3(0.0), vec3(1.0));
 	}
@@ -1257,7 +1254,15 @@ vec2 cellular(vec2 P)
         //var deltaY = newY - lastMouseY;
         //mat4.rotate(newRotationMatrix, degToRad(deltaY / 10), [1, 0, 0]);
 		
-		mat4.multiply(newRotationMatrix, mouseRotation, mouseRotation);
+		mat4.multiply(mouseRotation, newRotationMatrix, mouseRotation);
+		var centerOfRotation = [(gridOrigin[0] + gridSize[0] / 2.0), (gridOrigin[1] + gridSize[1] / 2.0), (gridOrigin[2] + gridSize[2] / 2.0)];
+		viewDir[0] = 0.0;
+		viewDir[1] = 0.0;
+		viewDir[2] = -1.0;
+		mat4.multiplyVec3(mouseRotation, viewDir);
+		var distanceOfEyeFromGrid = 135.0;
+		eye[0] = centerOfRotation[0] - viewDir[0] * distanceOfEyeFromGrid;
+		eye[2] = centerOfRotation[2] - viewDir[2] * distanceOfEyeFromGrid;
 
         lastMouseX = newX;
         lastMouseY = newY;
